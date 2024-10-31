@@ -1,0 +1,34 @@
+services:
+  carrinho:
+    build:
+      context: .
+      dockerfile: ./Carrinho/Dockerfile
+    container_name: carrinho-api
+    ports:
+      - "8080:8080"
+    networks:
+      - magalu-network
+  estoque:
+    build:
+      context: .
+      dockerfile: ./Estoque/Dockerfile
+    container_name: estoque-api
+    ports:
+      - "8081:8081"
+    networks:
+      - magalu-network
+  rabbitmq:
+    image: rabbitmq:management-alpine
+    container_name: rabbitmq
+    environment:
+      - RABBITMQ_DEFAULT_USER=admin
+      - RABBITMQ_DEFAULT_PASS=admin
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    networks:
+      - magalu-network
+
+networks:
+  magalu-network:
+    driver: bridge

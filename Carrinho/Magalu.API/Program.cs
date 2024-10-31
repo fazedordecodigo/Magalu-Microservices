@@ -1,4 +1,7 @@
 using Magalu.Carrinho.API.Module;
+using Magalu.Carrinho.Application.Settings;
+using Magalu.Infraestructure.Publishers;
+using Magalu.Carrinho.Application.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -6,6 +9,10 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
+builder.Services.Configure<RabbitMQSetting>(builder.Configuration.GetSection("RabbitMQ"));
+builder.Services.AddScoped(typeof(IPublisher<>), typeof(RabbitMqPublisher<>));
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddCarrinhoModule();

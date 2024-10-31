@@ -17,6 +17,8 @@ services:
       - "8081:8081"
     networks:
       - magalu-network
+    depends_on:
+      - rabbitmq
   rabbitmq:
     image: rabbitmq:management-alpine
     container_name: rabbitmq
@@ -28,6 +30,8 @@ services:
       - "15672:15672"
     networks:
       - magalu-network
+    volumes:
+      - ./rabbitmq:/var/lib/rabbitmq
 
 networks:
   magalu-network:

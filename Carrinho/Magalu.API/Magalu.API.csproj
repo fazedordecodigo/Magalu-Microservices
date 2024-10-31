@@ -12,6 +12,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Magalu.Carrinho\Magalu.Carrinho.API\Magalu.Carrinho.API.csproj" />
+    <ProjectReference Include="..\Magalu.Carrinho\Magalu.Carrinho.Application\Magalu.Carrinho.Application.csproj" />
+    <ProjectReference Include="..\Magalu.Carrinho\Magalu.Carrinho.Persistence\Magalu.Carrinho.Persistence.csproj" />
   </ItemGroup>
 
 </Project>

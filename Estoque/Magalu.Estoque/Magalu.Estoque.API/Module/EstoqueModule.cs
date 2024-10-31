@@ -1,4 +1,5 @@
-﻿using Magalu.Estoque.Application.Interfaces;
+﻿using Magalu.Estoque.API.Consumers;
+using Magalu.Estoque.Application.Interfaces;
 using Magalu.Estoque.Application.UseCases.ObterItemPorId;
 using Magalu.Estoque.Application.UseCases.ObterItens;
 using Magalu.Estoque.Domain;
@@ -14,6 +15,7 @@ namespace Magalu.Estoque.API.Module
             services.AddScoped<IUseCaseQuery<IList<Item>>, ObterItensUseCase>();
             services.AddSingleton<IItemRepository, ItemRepository>();
             services.AddScoped<IObterItemPorIdUseCaseQuery<Item, ObterItemPorIdDto>, ObterItemPorIdUseCase>();
+            services.AddHostedService<BaixaEstoqueConsumer>();
 
             return services;
         }

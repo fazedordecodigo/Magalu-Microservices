@@ -3,16 +3,16 @@ using Magalu.Estoque.Domain;
 
 namespace Magalu.Estoque.Application.UseCases.ObterItens
 {
-    public class ObterItensUseCase : IUseCaseQuery<IList<Item>>
+    public class ObterItensUseCase : IUseCaseQuery<IEnumerable<Item>>
     {
         private readonly IItemRepository _itemRepository;
         public ObterItensUseCase(IItemRepository itemRepository)
         {
             _itemRepository = itemRepository;
         }
-        public IList<Item> Handler()
+        public IEnumerable<Item> Handler()
         {
-            return _itemRepository.GetAll();
+            return _itemRepository.GetAll(1, 3);
         }
     }
 }

@@ -12,8 +12,8 @@ namespace Magalu.Estoque.API.Module
     {
         public static IServiceCollection AddEstoqueModule(this IServiceCollection services)
         {
-            services.AddScoped<IUseCaseQuery<IList<Item>>, ObterItensUseCase>();
-            services.AddSingleton<IItemRepository, ItemRepository>();
+            services.AddScoped<IUseCaseQuery<IEnumerable<Item>>, ObterItensUseCase>();
+            services.AddScoped<IItemRepository, ItemRepository>();
             services.AddScoped<IObterItemPorIdUseCaseQuery<Item, ObterItemPorIdDto>, ObterItemPorIdUseCase>();
             services.AddHostedService<BaixaEstoqueConsumer>();
 

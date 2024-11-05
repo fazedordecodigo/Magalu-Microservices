@@ -8,6 +8,8 @@ services:
       - "8080:8080"
     networks:
       - magalu-network
+    depends_on:
+      - rabbitmq
   estoque:
     build:
       context: .
@@ -19,6 +21,7 @@ services:
       - magalu-network
     depends_on:
       - rabbitmq
+      - sqlserver
   rabbitmq:
     image: rabbitmq:management-alpine
     container_name: rabbitmq
@@ -30,8 +33,54 @@ services:
       - "15672:15672"
     networks:
       - magalu-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:15672"]
+      interval: 10s
+      timeout: 10s
+      retries: 5
+  redis:
+    image: redis/redis-stack-server:latest
+    container_name: redis
+    restart: always
     volumes:
-      - ./rabbitmq:/var/lib/rabbitmq
+      - redis_volume_data:/data
+    ports:
+      - 6379:6379
+    networks:
+      - magalu-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://redis:6379"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+  redis_insight:
+    image: redislabs/redisinsight:1.14.0
+    container_name: redis_insight
+    restart: always
+    ports:
+      - 8001:8001
+    volumes:
+      - redis_insight_volume_data:/db
+    networks:
+      - magalu-network
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    environment:
+      SA_PASSWORD: "SqlServer2019!"
+      ACCEPT_EULA: "Y"
+      MSSQL_PID: "Developer"
+    ports:
+      - "1433:1433"
+    networks:
+      - magalu-network
+    container_name: sqlserver
+    volumes:
+      - sqlserver_volume_data:/var/opt/mssql
+
+volumes:
+  redis_volume_data:
+  redis_insight_volume_data:
+  sqlserver_volume_data:
 
 networks:
   magalu-network:

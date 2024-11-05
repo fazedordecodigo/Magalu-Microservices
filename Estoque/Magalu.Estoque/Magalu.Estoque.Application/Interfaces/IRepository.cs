@@ -8,6 +8,7 @@ namespace Magalu.Estoque.Application.Interfaces
         void Delete(T entity);
         void Update(T entity);
         T? Get(Guid id);
-        IList<T> GetAll();
+        IEnumerable<T> GetAll(int skip, int take);
+        void SaveChanges();
     }
 }

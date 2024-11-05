@@ -10,9 +10,9 @@ namespace Magalu.Estoque.API.Controllers
     [ApiController]
     public class EstoqueController: ControllerBase
     {
-        private readonly IUseCaseQuery<IList<Item>> _useCaseQuery;
+        private readonly IUseCaseQuery<IEnumerable<Item>> _useCaseQuery;
         private readonly IObterItemPorIdUseCaseQuery<Item, ObterItemPorIdDto> _obterItemPorIdUseCaseQuery;
-        public EstoqueController(IUseCaseQuery<IList<Item>> useCaseQuery, IObterItemPorIdUseCaseQuery<Item, ObterItemPorIdDto> obterItemPorIdUseCaseQuery)
+        public EstoqueController(IUseCaseQuery<IEnumerable<Item>> useCaseQuery, IObterItemPorIdUseCaseQuery<Item, ObterItemPorIdDto> obterItemPorIdUseCaseQuery)
         {
             _useCaseQuery = useCaseQuery;
             _obterItemPorIdUseCaseQuery = obterItemPorIdUseCaseQuery;

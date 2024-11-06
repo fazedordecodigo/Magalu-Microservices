@@ -24,9 +24,12 @@ WORKDIR /usr/app
 
 COPY --from=final-build /app/publish .
 COPY --from=final-build /usr/lib/x86_64-linux-gnu/libicu* /usr/lib/x86_64-linux-gnu/
+COPY --from=ghcr.io/ufoscout/docker-compose-wait:latest /wait /wait
 
 EXPOSE 8081
 ENV ASPNETCORE_URLS=http://+:8081
 ENV ASPNETCORE_ENVIRONMENT=Development
 
-ENTRYPOINT [ "dotnet", "Magalu.API.dll" ]
+ENV WAIT_COMMAND="dotnet Magalu.API.dll"
+
+ENTRYPOINT [ "/wait" ]

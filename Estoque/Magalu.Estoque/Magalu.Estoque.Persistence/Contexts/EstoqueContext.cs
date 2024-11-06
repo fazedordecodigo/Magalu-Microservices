@@ -10,15 +10,12 @@ namespace Magalu.Estoque.Persistence.Contexts
 
         public DbSet<Item> Items { get; set; }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            modelBuilder.Entity<Item>().HasKey(i => i.Id);
-
-            modelBuilder.Entity<Item>().HasData(
-                new Item { Id = Guid.NewGuid(), Nome = "Item 1" },
-                new Item { Id = Guid.NewGuid(), Nome = "Item 2" },
-                new Item { Id = Guid.NewGuid(), Nome = "Item 3" }
-            );
+            if (!optionsBuilder.IsConfigured)
+            {
+                optionsBuilder.UseSqlite("Data Source=app.db");
+            }
         }
     }
 }

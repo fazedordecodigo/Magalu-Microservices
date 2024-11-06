@@ -1,6 +1,5 @@
 ﻿
 using Magalu.Estoque.Application.Interfaces;
-using Magalu.Estoque.Application.UseCases.ObterItemPorId;
 using Magalu.Estoque.Domain;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,24 +9,17 @@ namespace Magalu.Estoque.API.Controllers
     [ApiController]
     public class EstoqueController: ControllerBase
     {
-        private readonly IUseCaseQuery<IEnumerable<Item>> _useCaseQuery;
-        private readonly IObterItemPorIdUseCaseQuery<Item, ObterItemPorIdDto> _obterItemPorIdUseCaseQuery;
-        public EstoqueController(IUseCaseQuery<IEnumerable<Item>> useCaseQuery, IObterItemPorIdUseCaseQuery<Item, ObterItemPorIdDto> obterItemPorIdUseCaseQuery)
+        private readonly IUseCaseQuery<Task<IEnumerable<Item>>> _useCaseQuery;
+        public EstoqueController(IUseCaseQuery<Task<IEnumerable<Item>>> useCaseQuery)
         {
             _useCaseQuery = useCaseQuery;
-            _obterItemPorIdUseCaseQuery = obterItemPorIdUseCaseQuery;
         }
 
         [HttpGet]
-        public IActionResult Get()
+        public async Task<IActionResult> Get()
         {
-            return Ok(_useCaseQuery.Handler());
-        }
-
-        [HttpGet("{Id}")]
-        public IActionResult Get([FromRoute] ObterItemPorIdDto route)
-        {
-            return Ok(_obterItemPorIdUseCaseQuery.Handler(route));
+            var result = await _useCaseQuery.Handler();
+            return Ok(result);
         }
     }
 }

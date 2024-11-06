@@ -7,12 +7,18 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.Configure<RabbitMQSetting>(builder.Configuration.GetSection("RabbitMQ"));
 builder.Services.AddDbContext<EstoqueContext>(
-    db => db.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
+    db => db.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"))
 );
+builder.Services.AddStackExchangeRedisCache(options =>
+{
+    options.Configuration = builder.Configuration.GetConnectionString("Redis");
+    options.InstanceName = builder.Configuration["Redis:InstanceName"];
+});
+
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddEstoqueModule();
-
 
 var app = builder.Build();
 

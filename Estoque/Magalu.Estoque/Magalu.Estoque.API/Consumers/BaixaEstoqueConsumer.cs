@@ -46,7 +46,7 @@ namespace Magalu.Estoque.API.Consumers
             _channel.QueueDeclare(queue: queueName, durable: true, exclusive: false, autoDelete: false, arguments: null);
 
             var consumer = new EventingBasicConsumer(_channel);
-            consumer.Received += async (model, ea) =>
+            consumer.Received += (model, ea) =>
             {
                 var body = ea.Body.ToArray();
                 var message = Encoding.UTF8.GetString(body);

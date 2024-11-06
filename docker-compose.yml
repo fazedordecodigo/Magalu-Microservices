@@ -9,12 +9,8 @@ services:
     networks:
       - magalu-network
     environment:
-      WAIT_HOSTS: sqlserver:1433, rabbitmq:5672, redis:6379
+      WAIT_HOSTS: rabbitmq:5672, redis:6379
       WAIT_BEFORE: 10
-    depends_on:
-      - sqlserver
-      - rabbitmq
-      - redis
   estoque:
     build:
       context: .
@@ -25,12 +21,11 @@ services:
     networks:
       - magalu-network
     environment:
-      WAIT_HOSTS: sqlserver:1433, rabbitmq:5672, redis:6379
+      ConnectionStrings__DefaultConnection: Data Source=app.db
+      WAIT_HOSTS: rabbitmq:5672, redis:6379
       WAIT_BEFORE: 10
-    depends_on:
-      - sqlserver
-      - rabbitmq
-      - redis
+    volumes:
+      - api_volume_data:/usr/app
   rabbitmq:
     image: rabbitmq:management-alpine
     container_name: rabbitmq
@@ -62,23 +57,15 @@ services:
       - redis_insight_volume_data:/db
     networks:
       - magalu-network
-  sqlserver:
-    image: mcr.microsoft.com/mssql/server:2019-latest
-    environment:
-      SA_PASSWORD: "SqlServer2019!"
-      ACCEPT_EULA: "Y"
-      MSSQL_PID: "Developer"
-    ports:
-      - "1433:1433"
-    networks:
-      - magalu-network
-    container_name: sqlserver
-    volumes:
-      - sqlserver_volume_data:/var/opt/mssql
 volumes:
   redis_volume_data:
   redis_insight_volume_data:
-  sqlserver_volume_data:
+  api_volume_data:
+    driver: local
+    driver_opts:
+      type: none
+      device: ../database
+      o: bind
 
 networks:
   magalu-network:

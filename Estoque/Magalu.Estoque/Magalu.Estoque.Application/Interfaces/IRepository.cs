@@ -2,13 +2,8 @@
 
 namespace Magalu.Estoque.Application.Interfaces
 {
-    public interface IRepository<T> where T : Entity
+    public interface IRepository<T>
     {
-        void Add(T entity);
-        void Delete(T entity);
-        void Update(T entity);
-        T? Get(Guid id);
-        IEnumerable<T> GetAll(int skip, int take);
-        void SaveChanges();
+        Task<IEnumerable<T>> GetAll(int skip, int take);
     }
 }

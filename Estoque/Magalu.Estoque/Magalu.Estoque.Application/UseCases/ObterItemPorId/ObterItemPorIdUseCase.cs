@@ -3,18 +3,18 @@ using Magalu.Estoque.Domain;
 
 namespace Magalu.Estoque.Application.UseCases.ObterItemPorId
 {
-    public class ObterItemPorIdUseCase : IObterItemPorIdUseCaseQuery<Item, ObterItemPorIdDto>
+    public class ObterItemPorIdUseCase : IObterItemPorIdUseCaseQuery<Task<IEnumerable<Item>>, ObterItemPorIdDto>
     {
-        private readonly IItemRepository _itemRepository;
+        private readonly IRepository<Item> _itemRepository;
 
-        public ObterItemPorIdUseCase(IItemRepository itemRepository)
+        public ObterItemPorIdUseCase(IRepository<Item> itemRepository)
         {
             _itemRepository = itemRepository;
         }
 
-        public Item Handler(ObterItemPorIdDto query)
+        public async Task<IEnumerable<Item>> Handler(ObterItemPorIdDto query)
         {
-            return _itemRepository.Get(query.Id);
+            return await _itemRepository.GetAll(1,5);
         }
     }
 }

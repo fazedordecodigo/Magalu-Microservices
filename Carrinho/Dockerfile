@@ -17,8 +17,11 @@ FROM base AS final
 WORKDIR /usr/app
 
 COPY --from=build /app/publish .
+COPY --from=ghcr.io/ufoscout/docker-compose-wait:latest /wait /wait
 
 EXPOSE 8080
 ENV ASPNETCORE_ENVIRONMENT=Development
 
-ENTRYPOINT [ "dotnet", "Magalu.API.dll" ]
+ENV WAIT_COMMAND="dotnet Magalu.API.dll"
+
+ENTRYPOINT [ "/wait" ]

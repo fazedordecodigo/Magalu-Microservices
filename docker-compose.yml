@@ -10,6 +10,11 @@ services:
       - magalu-network
     environment:
       WAIT_HOSTS: sqlserver:1433, rabbitmq:5672, redis:6379
+      WAIT_BEFORE: 10
+    depends_on:
+      - sqlserver
+      - rabbitmq
+      - redis
   estoque:
     build:
       context: .
@@ -21,6 +26,11 @@ services:
       - magalu-network
     environment:
       WAIT_HOSTS: sqlserver:1433, rabbitmq:5672, redis:6379
+      WAIT_BEFORE: 10
+    depends_on:
+      - sqlserver
+      - rabbitmq
+      - redis
   rabbitmq:
     image: rabbitmq:management-alpine
     container_name: rabbitmq

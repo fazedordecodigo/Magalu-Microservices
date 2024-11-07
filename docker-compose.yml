@@ -21,11 +21,8 @@ services:
     networks:
       - magalu-network
     environment:
-      ConnectionStrings__DefaultConnection: Data Source=app.db
       WAIT_HOSTS: rabbitmq:5672, redis:6379
       WAIT_BEFORE: 10
-    volumes:
-      - api_volume_data:/usr/app
   rabbitmq:
     image: rabbitmq:management-alpine
     container_name: rabbitmq
@@ -60,12 +57,6 @@ services:
 volumes:
   redis_volume_data:
   redis_insight_volume_data:
-  api_volume_data:
-    driver: local
-    driver_opts:
-      type: none
-      device: ../database
-      o: bind
 
 networks:
   magalu-network:

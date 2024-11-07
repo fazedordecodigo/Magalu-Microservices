@@ -1,7 +1,7 @@
 ﻿namespace Magalu.Estoque.Application.Interfaces
 {
-    public interface IUseCaseQuery<out T> where T : class
+    public interface IUseCaseQuery<in T, out U> where T : class where U : class
     {
-        T Handler();
+        U Handler(T request);
     }
 }

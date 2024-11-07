@@ -26,6 +26,9 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    using var scope = app.Services.CreateScope();
+    var dbContext = scope.ServiceProvider.GetRequiredService<EstoqueContext>();
+    dbContext.Database.EnsureCreated();
 }
 
 app.UseHttpsRedirection();

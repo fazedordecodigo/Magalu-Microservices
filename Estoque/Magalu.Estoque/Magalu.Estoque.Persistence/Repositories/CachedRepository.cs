@@ -52,6 +52,9 @@ namespace Magalu.Estoque.Persistence.Repositories
             }
             return dbValues;
         }
+
+        // Cache-Aside Pattern
+        // Lazing Loading
     }
 }
 

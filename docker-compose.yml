@@ -24,7 +24,7 @@ services:
       WAIT_HOSTS: rabbitmq:5672, redis:6379
       WAIT_BEFORE: 10
   rabbitmq:
-    image: rabbitmq:management-alpine
+    image: bitnami/rabbitmq:3.10.8-debian-11-r4
     container_name: rabbitmq
     environment:
       - RABBITMQ_DEFAULT_USER=admin

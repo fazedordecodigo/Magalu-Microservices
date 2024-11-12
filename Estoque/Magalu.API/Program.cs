@@ -5,10 +5,13 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
+
 builder.Services.Configure<RabbitMQSetting>(builder.Configuration.GetSection("RabbitMQ"));
+
 builder.Services.AddDbContext<EstoqueContext>(
     db => db.UseInMemoryDatabase(databaseName: "Estoque")
 );
+
 builder.Services.AddStackExchangeRedisCache(options =>
 {
     options.Configuration = builder.Configuration.GetConnectionString("Redis");

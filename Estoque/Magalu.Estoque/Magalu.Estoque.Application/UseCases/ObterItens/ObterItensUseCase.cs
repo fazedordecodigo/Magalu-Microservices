@@ -10,8 +10,9 @@ namespace Magalu.Estoque.Application.UseCases.ObterItens
         {
             _itemRepository = itemRepository;
         }
-        public async Task<IEnumerable<Item>> Handler(ObterItensDto dto)
+        public async Task<IEnumerable<Item>> Handler(ObterItensDto? dto)
         {
+            ArgumentNullException.ThrowIfNull(dto);
             return await _itemRepository.GetAll(dto.Skip, dto.Take);
         }
     }
